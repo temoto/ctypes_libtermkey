@@ -1,0 +1,71 @@
+Intro
+
+Python ctypes bindings for libtermkey,
+one excellent terminal key handling library.
+
+
+Demo
+
+See demo.py for a simple demo
+(to exit press C-c, that is Control+C).
+
+
+Usage
+
+To use bindings, you must first install libtermkey.
+See http://www.leonerd.org.uk/code/libtermkey/
+
+Then, you can import TermKey from ctypes_termkey.
+
+!!! TermKey() causes Segmentation Fault in python interpreter. !!!
+***WARNING*** for some reason, cpython interpreter segfaults when
+you're trying to instantiate TermKey, that is, when libtermkey is
+initializing. So everything described below is what you should try
+in your existing program or write brand new.
+For this reason, examples described here, start Python code lines
+with {{{ and end them with }}}, like in Trac.
+
+{{{
+    from ctypes_termkey import TermKey
+}}}
+
+if all goes ok, you'll see no errors here.
+You can now instantiate TermKey class to start using libtermkey.
+
+{{{
+    tk = TermKey()
+}}}
+
+Actually, you could pass two parameters to constructor:
+    file descriptor and flags.
+# TODO: document parameters
+Now you can start collecting keys, i.e. in wait mode:
+
+{{{
+    result, key = tk.waitkey()
+}}}
+
+result corresponds to ctypes_termkey.Result class attributes:
+    NONE, KEY, EOF and AGAIN.
+key corresponds to ctypes_termkey.termkey_key structure.
+
+{{{
+    from ctypes_termkey import Result
+    if result == Result.KEY:
+        print "got key"
+}}}
+
+to get string key name from key you can call the sprint() method.
+
+{{{
+    print tk.sprint_key(key)
+}}}
+
+which could print, i.e., q.
+Look at termkey documentation to learn how to use it.
+
+
+Credits
+
+Bindings by Sergey Shepelev <temotor@gmail.com>
+libtermkey by Paul LeoNerd Evans <leonerd@leonerd.org.uk>
